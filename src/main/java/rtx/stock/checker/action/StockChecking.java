@@ -14,12 +14,13 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
+import lombok.extern.slf4j.Slf4j;
 
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class StockChecking {
-
     public void sendEmail()  throws MailjetException, MailjetSocketTimeoutException {
         MailjetClient client;
         MailjetRequest request;
@@ -41,8 +42,8 @@ public class StockChecking {
                                 .put(Emailv31.Message.HTMLPART, "<h3>Dear laylo https://www.krgkart.com/product/asus-nvidia-geforce-rtx-3070-8gb-dual-gddr6-graphics-card  </h3>")
                                 .put(Emailv31.Message.CUSTOMID, "AppGettingStartedTest")));
         response = client.post(request);
-        System.out.println(response.getStatus());
-        System.out.println(response.getData());
+        log.info(String.valueOf(response.getStatus()));
+        log.info(String.valueOf(response.getData()));
     }
 
     public void checkStock() throws Exception {
@@ -67,7 +68,7 @@ public class StockChecking {
             sendEmail();
             throw e;
         }
-        System.out.println(itemName);
+        log.info(itemName);
         if (itemName.isEmpty())
             sendEmail();
     }
